@@ -22,4 +22,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
      Route::get('category','CategoryController@index');
      
      Route::get('categorylist','CategoryController@indexlist');
+      Route::get('categoryadd','CategoryController@add');
+      Route::post('categoryadd','CategoryController@add');
+     
 });
