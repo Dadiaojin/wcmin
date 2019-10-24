@@ -42,6 +42,12 @@ return [
     */
 
     'disks' => [
+        
+        'upload'=>[
+            'driver' => 'local',
+            'root' => storage_path('uploads'), //文件夹
+             'visibility' => 'public',
+        ],
 
         'local' => [
             'driver' => 'local',

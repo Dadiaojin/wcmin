@@ -23,7 +23,7 @@ class CategoryController extends Controller
     }
     
     
-    public function add(Request $request){
+  /*  public function add(Request $request){
         
         
         
@@ -72,5 +72,47 @@ class CategoryController extends Controller
            return  view('Admin/index/categoryadd'); 
         }
         
-    }
+    }*/
+    
+ public function add(Request $request){
+     if($request->isMethod('get')){
+          return  view('Admin/index/categoryadd');
+     }
+     elseif ($request->isMethod('post')) {
+     //    var_dump($request->all());
+         
+         //自定义规则
+         $rulues=[
+             'cat_name'=>'required',
+            'cat_desc'=>'required'
+             ];
+         
+         //错误提示
+         $msg=[
+             'cat_name.required'=>'分类名称不能为空',
+             'cat_desc.required'=>'分类名称介绍不能为空'
+         ];
+        
+         $data=$request->all();
+         $validator = Validator::make($data,$rulues,$msg);
+         if($validator->passes()){
+             Category::create($data);
+             return ['info'=>1];
+         }else{
+             $v = $validator->messages();//获取错误
+             $error=  collect($v)->implode('0',',');
+             return ['info'=>0,'error'=>$error];
+         }
+   }
+ }
+ 
+ //处理文件上传
+ public function uploadimg(Request $request){
+     $file = $request->file('file');
+     $filename="/uploads/".$file->store('image','upload'); //返回上传文件路径 (filesystems.php 调整 upload)
+     return ['info'=>$filename];
+ }
+    
+    
+    
 }

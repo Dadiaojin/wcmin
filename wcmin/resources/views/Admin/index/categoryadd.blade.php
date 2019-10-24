@@ -22,9 +22,13 @@
 <title>新增图片</title>
 <link href="{{asset("lib/webuploader/0.1.5/webuploader.css")}}" rel="stylesheet" type="text/css" />
 </head>
+
+<style>  
+    #filePicker div:nth-child(2){width:100%!important;height:100%!important;}  
+</style> 
 <body>
 <div class="page-container">
-	<form class="form form-horizontal" id="form-article-add" action="{{url('/admin/categoryadd')}}" method="post" enctype="multipart/form-data">
+	<form class="form form-horizontal" id="form-cat-add" enctype="multipart/form-data">
            <input type="hidden" name="_token" value="{{csrf_token()}}">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类名称：</label>
@@ -46,12 +50,26 @@
 	
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
-                        <input type="file" name="cat_thumb">
+			<div class="formControls col-xs-8 col-sm-9">
+				<div class="uploader-thum-container">
+                                    <input type="text" class="input-text" value="" placeholder="" id="cat_thumb" name="cat_thumb">
+					<div id="fileList" class="uploader-list"></div>
+                                        <div id="a">
+                                            <div class="b" style="width: 700px">
+                                                <div class="sr-only" style="width: 0%"></div>
+                                            </div>
+                                            
+                                        </div>
+					<div id="filePicker">选择图片</div>
+					<button id="btn-star" class="btn btn-default btn-uploadstar radius ml-10">开始上传</button>
+				</div>
+			</div>
 		</div>
 		
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                            <button  class="btn btn-primary radius" type="button" onclick="submit()"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
+                           <!-- <button  class="btn btn-primary radius" type="button" onclick="submit()"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>-->
+                            <input type="submit" value="提交">
                             
 				<button  onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
 			</div>
@@ -87,6 +105,88 @@ function article_save(){
 function submit(){
     document.getElementsByTagName("form")[0].submit();
 }
+
+
+
+
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+       
+    })
+//初始化文件上传
+var uploader = WebUploader.create({
+   
+    auto:true,//立即上传
+    //加载swf
+    swf:'{{asset("lib/webuploader/0.1.5/Uploader.swf")}}',
+    sever:'{{url("admin/category/uploadimg")}}', //文件处理路径
+    pick:'#filePicker',
+    resize:false,
+    //允许选择图片文件
+    accept:{
+        title:'Images',
+        extensions:'gif jpeg jpg png',
+        //mimeTypes: 'image/jpg,image/jpeg,image/png'
+        mimeTypes:'image/*'
+    },
+    //令牌
+    formData:{
+        "_token":"{{csrf_token()}}",
+    }
+    
+});
+uploader.on('uploadSuccess',function(file,data){
+    //data返回上传文件路径
+    var info=data.info;
+    var imgs='<img style="width: 100px; margin-bottom: 10px" src="http://localhost/wcmin/public/'+info+'">';
+    $("#fileList").html(imgs);
+    $("#a .sr-only").hide();
+    console.log(info)
+    layer.msg("上传成功");
+    
+})
+
+uploader.on("uploadProgress",function(file,percentage){
+    $("#a .sr-only").css('width'.percentage*100+'%');
+});
+        
+            
+            
+
+
+
+
+
+$("#form-cat-add").submit(function(event){
+    //阻止表单默认提交
+    event.preventDefault();
+	//获取表单数据
+	var data = $(this).serialize();
+	//ajax提交
+	$.ajax({
+		type:'post',
+		url:'{{url("admin/categoryadd")}}',
+		data:data,
+		dataType:"json",
+		success:function(msg){
+			//msg服务器返回json格式数据
+			if(msg.info==1){
+				//成功
+				parent.window.location.href= parent.window.location.href;
+				layer_close();
+			}
+			else{
+				//失败
+				layer.msg("添加失败"+msg.error,{icon:5,time:3000});
+			}
+		}
+	});
+})
+
 
 </script>
 </body>
