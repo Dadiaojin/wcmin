@@ -45,7 +45,7 @@ return [
         
         'upload'=>[
             'driver' => 'local',
-            'root' => storage_path('uploads'), //文件夹
+            'root' => public_path('uploads'), //文件夹
              'visibility' => 'public',
         ],
 

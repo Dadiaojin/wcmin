@@ -23,6 +23,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
      
      Route::get('categorylist','CategoryController@indexlist');
       Route::get('categoryadd','CategoryController@add');
-      Route::post('categoryadd','CategoryController@add');
+      Route::post('categoryadd','CategoryController@add');  
       Route::post('category/uploadimg','CategoryController@uploadimg');
+       Route::match(['get','post'],'category/update/{categorys}','CategoryController@update');
 });

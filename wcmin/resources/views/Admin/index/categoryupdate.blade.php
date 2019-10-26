@@ -19,7 +19,7 @@
 <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
-<title>新增分类</title>
+<title>修改分类</title>
 <link href="{{asset("lib/webuploader/0.1.5/webuploader.css")}}" rel="stylesheet" type="text/css" />
 </head>
 
@@ -33,13 +33,13 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="cat_name">
+				<input type="text" class="input-text" value="{{$categorys->cat_name}}" placeholder="" id="" name="cat_name">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>简略描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="cat_desc">
+				<input type="text" class="input-text" value="{{$categorys->cat_desc}}" placeholder="" id="" name="cat_desc">
 			</div>
 		</div>
 		
@@ -52,7 +52,7 @@
 			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<div class="uploader-thum-container">
-                                    <input type="text" class="input-text" value="" placeholder="" id="cat_thumb" name="cat_thumb">
+                                    <input type="text" class="input-text" value="{{$categorys->cat_thumb}}" placeholder="" id="cat_thumb" name="cat_thumb">
 					<div id="fileList" class="uploader-list"></div>
                                         <div id="a">
                                             <div class="b" style="width: 700px">
@@ -169,16 +169,16 @@ $("#form-cat-add").submit(function(event){
 	//ajax提交
 	$.ajax({
 		type:'post',
-		url:'{{url("admin/categoryadd")}}',
+		url:'{{url("admin/category/update")}}',
 		data:data,
 		dataType:"json",
 		success:function(msg){
 			//msg服务器返回json格式数据
 			if(msg.info==1){
 				//成功
-				parent.window.location.href= parent.window.location.href;
-				layer_close();
-                       // console.log(msg.info);
+			//	parent.window.location.href= parent.window.location.href;
+			//	layer_close();
+                        console.log(msg.info);
 			}
 			else{
 				//失败

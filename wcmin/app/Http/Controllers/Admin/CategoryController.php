@@ -108,9 +108,23 @@ class CategoryController extends Controller
  
  //处理文件上传
  public function uploadimg(Request $request){
-     $file = $request->file('file');
-     $filename="/uploads/".$file->store('image','upload'); //返回上传文件路径 (filesystems.php 调整 upload)
+   $file = $request->file('file');
+    
+    $filename="uploads/".$file->store('image','upload'); //返回上传文件路径 (filesystems.php 调整 upload)
+    //$file->move($filename);
      return ['info'=>$filename];
+    
+  
+ }
+ public function update(Request $request , Category $category){
+     if($request->isMethod('get')){
+         $id=$request->categorys;
+         $categorys=Category::where('id',$id)->first();
+         
+          return  view('Admin/index/categoryupdate',compact('categorys')); 
+         //var_dump($request->categorys);
+     }
+    
  }
     
     
