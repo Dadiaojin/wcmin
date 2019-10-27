@@ -28,8 +28,9 @@
 </style> 
 <body>
 <div class="page-container">
-	<form class="form form-horizontal" id="form-cat-add" enctype="multipart/form-data">
+	<form class="form form-horizontal" id="form-cat-update" enctype="multipart/form-data">
            <input type="hidden" name="_token" value="{{csrf_token()}}">
+           
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -161,7 +162,7 @@ uploader.on("uploadProgress",function(file,percentage){
 
 
 
-$("#form-cat-add").submit(function(event){
+$("#form-cat-update").submit(function(event){
     //阻止表单默认提交
     event.preventDefault();
 	//获取表单数据
@@ -169,16 +170,16 @@ $("#form-cat-add").submit(function(event){
 	//ajax提交
 	$.ajax({
 		type:'post',
-		url:'{{url("admin/category/update")}}',
+		url:'{{url("admin/category/update")}}/{{$categorys->id}}',
 		data:data,
 		dataType:"json",
 		success:function(msg){
 			//msg服务器返回json格式数据
 			if(msg.info==1){
 				//成功
-			//	parent.window.location.href= parent.window.location.href;
-			//	layer_close();
-                        console.log(msg.info);
+				parent.window.location.href= parent.window.location.href;
+				layer_close();
+                        //console.log(msg.info);
 			}
 			else{
 				//失败

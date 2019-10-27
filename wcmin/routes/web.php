@@ -26,4 +26,15 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
       Route::post('categoryadd','CategoryController@add');  
       Route::post('category/uploadimg','CategoryController@uploadimg');
        Route::match(['get','post'],'category/update/{categorys}','CategoryController@update');
+         Route::post('category/del','CategoryController@del');
+         
+         //商品列表页
+          Route::match(['get','post'],'goods/index','GoodsController@index');
+      Route::get('goods/add','GoodsController@add');
+      Route::post('goods/add','GoodsControllerr@add');  
+      Route::post('goods/uploadimg','GoodsController@uploadimg');
+       Route::match(['get','post'],'goods/update/{categorys}','GoodsController@update');
+         Route::post('goods/del','GoodsControllerr@del');
+         
+         
 });

@@ -118,13 +118,69 @@ class CategoryController extends Controller
  }
  public function update(Request $request , Category $category){
      if($request->isMethod('get')){
+        
          $id=$request->categorys;
          $categorys=Category::where('id',$id)->first();
          
           return  view('Admin/index/categoryupdate',compact('categorys')); 
          //var_dump($request->categorys);
      }
+     elseif ($request->isMethod('post')) {
+         //定义规则
+         $rules=[
+             'cat_name'=>'required|min:2|unique:category,cat_name,'.$request->categorys,
+             'cat_desc'=>'required|min:4',
+         ];
+         $msg=[
+             'cat_name.required'=>'分类不能为空',
+              'cat_desc.required'=>'概述不能为空',
+             'cat_name.min'=>'分类至少2字',
+             'cat_name.unique'=>'名称存在',
+             
+         ];
+          $id=$request->categorys;
+         $categorys=Category::where('id',$id)->first();
+         $data=$request->all();
+         //验证规则
+         $validator=Validator::make($data,$rules,$msg);
+         if($validator->passes()){
+             
+             //验证通过
+             $old_category_thumb=$categorys->category_thumb;
+             $new_category_thumb=$request->input('cat_thumb');
+             if($old_category_thumb!=$new_category_thumb){
+                 //说明修改了图
+                 if($old_category_thumb!=""){
+                     //删旧图
+                     $old_category_thumb= str_replace('/uploads/','',$old_category_thumb);
+                     Storage::disk('upload')->delete($old_category_thumb);
+                     
+                 }
+             }
+             unset($data["_token"]);
+             Category::where('id',$id)->update($data);
+             return ['info'=>1];
+         } else {
+             $v=$validator->messages();
+             //print_r($v)
+             $error= collect($v)->implode('0', ',');
+             return ['info'=>$error];
+         }
+         
+         
+         
+     }
     
+ }
+ 
+ public function del(Request $request){
+     $id=$request->id;
+     $del=Category::where('id',$id)->delete();
+     if($del){
+         return ['info'=>1];
+     }else{
+         return ['info'=>0];
+     }
  }
     
     
