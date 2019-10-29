@@ -43,4 +43,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
                  //商品删除
                  Route::post('goods/del','GoodsController@del');
                  
+                 
+                 //登录
+                 Route::match(['get','post'],'login','IndexController@login');
+                 
 });

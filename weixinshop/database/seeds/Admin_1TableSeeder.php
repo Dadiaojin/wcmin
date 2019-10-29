@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class AdminTableSeeder extends Seeder
+class Admin_1TableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,13 +11,12 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        //向管理员表里面填充数据
-        DB::table('admin')->insert([
+                DB::table('admin_1')->insert([
         	[
-        		'username'=>'宋江',
+        		'username'=>'ddj',
         		'password'=>bcrypt('123456')
         	],
-        	
+        
 
         ]);
     }
