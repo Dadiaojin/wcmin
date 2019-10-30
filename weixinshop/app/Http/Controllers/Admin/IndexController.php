@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
-use Illuminate\Http\Request;
+use Auth;
 use App\Http\Models\Admin;
+use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -11,14 +12,21 @@ class IndexController extends Controller
 {
         //后台首页
           public function index(){
+              
               //视图的位置 /resouces/views/admin/index/index.blade.php
-              $session=session()->get("userinfo");
+              if(!empty(Auth::guard('admin')->user()->username)){
+                   return view('admin.index.index');
+              } else {
+                     return redirect()->action('Admin\IndexController@login');
+              }
+              
+     /*         $session=session()->get("userinfo");
       
       if(empty($session['id']) && empty($session['name'])){
           return redirect()->action('Admin\IndexController@login');
       }  else {
            return view('admin.index.index');
-      }
+      }*/
               
              
           }
@@ -43,8 +51,8 @@ class IndexController extends Controller
             
         ]);
         }
-                  
-                  //var_dump($request->all());
+                  /*旧方法------------*/
+             /*     //var_dump($request->all());
                   $checkname= Admin::where('username','=',$request->input('username'))->first();
                  // var_dump($checkname);
                   if(!empty($checkname)){
@@ -62,7 +70,24 @@ class IndexController extends Controller
                       
                   }else{
                       echo '账户错误';
-                  }
+                  }*/
+        
+        
+        /*新方法----------------*/
+        
+        //验证用户名和密码是否正确，auth完成验证，用户信息自动存到session里
+        $res=Auth::guard('admin')->attempt($request->only(['username','password']),$request->has('online'));
+        if($res){
+           // echo "ok";
+             return redirect()->action('Admin\IndexController@index');
+        }else{
+            return back()->withErrors(['msg'=>'用户或密码错误！']);
+        }
               }
+          }
+          
+          public function loginout(){
+              Auth::guard('admin')->logout();
+              return redirect()->action('Admin\IndexController@login');
           }
 }

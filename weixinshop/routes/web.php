@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
+    Route::group(['middleware'=>'login'],function(){
                 //后台首页
 		Route::get('index','IndexController@index');
 		//加载welcome页面的
@@ -42,9 +43,12 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function(){
                  Route::match(['get','post'],'goods/update/{goods}','GoodsController@update');
                  //商品删除
                  Route::post('goods/del','GoodsController@del');
-                 
+                 });
                  
                  //登录
                  Route::match(['get','post'],'login','IndexController@login');
+                 
+                 //退出登录
+                 Route::get('loginout','IndexController@loginout');
                  
 });
