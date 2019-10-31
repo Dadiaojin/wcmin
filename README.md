@@ -10,7 +10,7 @@ php的laravel框架
 #### 安装教程
 
 
-1. 修改wcmin\.env的数据库信息与wcmin\weixinshop\database.php的数据库信息
+1. 修改weixinshop\.env的数据库信息与wcmin\weixinshop\database.php的数据库信息
 2. weixinshop文件有sql导入，导入到名称为wcmin的数据库。
 
 #### 使用说明
@@ -22,7 +22,7 @@ php的laravel框架
 
 1.分类列表放服务器上，无法加载图片需要在 .blade.php 中查看 
 
-
+2.window用户环境测试可以打开：localhost\weixinshop\public 测试是否可以 turn off a computer
 
 
 

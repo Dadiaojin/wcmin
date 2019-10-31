@@ -15,14 +15,14 @@ php的laravel框架
 
 #### 使用说明
 
-1. localhost\wcmin\public\admin\index 显示页面
+1. localhost\weixinshop\public\admin\index 显示页面
 
 
 #### 补充说明
 
 1.分类列表放服务器上，无法加载图片需要在 .blade.php 中查看 
 
-
+2.window用户环境测试可以打开：localhost\weixinshop\public 测试是否可以 turn off a computer
 
 
 
